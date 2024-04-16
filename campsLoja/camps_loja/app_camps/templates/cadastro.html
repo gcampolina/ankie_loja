@@ -1,0 +1,204 @@
+<!-- cadastro.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Ankie.co</title>
+    
+    <style>
+        body {
+            text-align: center;
+            background-color: #f8f9fa;
+            background-image: url('https://i.ibb.co/0fWr4bT/azzz.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+
+        .cadastro-container {
+            max-width: 500px;
+            padding: 15px;
+            margin: auto;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+        }
+
+        .cadastro-container h5 {
+            color: rgb(158, 84, 228);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(207, 40, 223, 0.8);
+            
+        }
+
+        
+
+        .form-floating label {
+            color: #6c757d;
+        }
+
+        
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: rgb(158, 84, 228);
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        
+
+        .login-link {
+            margin-top: 10px;
+            display: block;
+        }
+
+        .btncadastrar {
+            color: black;
+            font-weight: bold;
+            background-color: rgb(158, 84, 228);
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+            
+        }
+
+        .btncadastrar:hover {
+            color: black;
+            background-color: #bf92db;
+        }
+
+
+        .linklogin {
+            color: black;
+        }
+
+        .linklogin:hover {
+            color: rgb(158, 84, 228);
+        }
+
+        @media (max-width: 768px) {
+        
+        .cadastro-container{
+          width: 90%;
+        
+        }
+    }
+    </style>
+
+</head>
+<body>
+
+
+
+    <div class="cadastro-container">
+        <h5 style="font-family: 'Courier New', Courier, monospace; font-size: 30px;">CADASTRO</h5>
+
+        <form action="{% url 'cadastro' %}" method="POST">
+            {% csrf_token %}
+            
+            <label for="name" class="visually-hidden">Nome Completo:</label>
+            <input type="text" id="name" name="name" placeholder="Nome Completo" required>
+
+            <label for="username" class="visually-hidden">Usuário:</label>
+            <input type="text" id="username" name="username" placeholder="Usuário" required>
+
+            <label for="senha" class="visually-hidden">Senha:</label>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required>
+            
+            <label for="senha2" class="visually-hidden">Confirmação de Senha:</label>
+            <input type="password" id="senha2" name="senha2" placeholder="Repita sua senha" required>
+            
+            <label for="email" class="visually-hidden">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            
+            <label for="cel" class="visually-hidden">Celular:</label>
+            <input type="cel" id="celular" name="celular" placeholder="Celular" maxlength="14" required>
+            
+
+            {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+     {% endif %}
+            
+            <button class="btn btncadastrar" type="submit">Cadastrar</button>
+        </form>
+        
+        <p style="margin-top: 10px;" class="login-link">Já possui uma conta? <a class="linklogin" href="{% url 'login' %}">Entrar agora</a></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/inputmask.min.js" integrity="sha512-qRNQ7VleVpPoEzXwKb2DSaXgNzQYXTgJrlFpAOSpZ2y5ntWv9+fMl6YzEE4RJ3fVDeLZsSVlV9uJ6Ni7KFQ8Ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            // Adiciona a máscara de telefone ao campo
+            $('#celular').on('input', function() {
+                // Remove todos os caracteres não numéricos
+                let phoneNumber = $(this).val().replace(/\D/g, '');
+    
+                // Aplica a formatação do número de telefone
+                if (phoneNumber.length > 2) {
+                    phoneNumber = `(${phoneNumber.substring(0, 2)}) ${phoneNumber.substring(2)}`;
+                }
+    
+                if (phoneNumber.length > 10) {
+                    phoneNumber = `${phoneNumber.substring(0, 10)}-${phoneNumber.substring(10)}`;
+                }
+    
+                // Atualiza o valor do campo
+                $(this).val(phoneNumber);
+            });
+        });
+
+    </script>
+
+
+
+
+
+
+</body>
+</html>
+
+{% endblock %}

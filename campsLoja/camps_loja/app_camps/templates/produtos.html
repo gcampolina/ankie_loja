@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Ankie co.</title>
+
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            background-color: #f8f9fa;
+            background-image: url('https://i.ibb.co/0fWr4bT/azzz.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            
+        }
+
+        .produto:hover {
+            transform: scale(1.1);
+            /* Ajuste o fator de escala conforme necessário */
+            
+            /* Adiciona uma transição suave ao efeito de escala */
+            cursor: pointer;
+        }
+
+        .produto {  
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            background-color: white;
+            flex: 0 0 calc(33.33% - 20px);
+            display: inline-block;
+            /* Exibir produtos em linha */
+            margin: 20px;
+            /* Espaçamento entre produtos */
+            /* Alinhar texto à esquerda dentro de cada produto */
+            border: 1px solid #ddd;
+            /* Borda ao redor de cada produto */
+            padding: 10px;
+            /* Espaçamento interno dentro de cada produto */
+            width: 250px;
+            /* Largura fixa para cada produto (ajuste conforme necessário) */
+            max-height: 100%;
+            overflow: hidden;
+            border-radius: 100px;
+            vertical-align: top;
+            /* Alinhar na parte superior do contêiner pai */
+            box-sizing: border-box;
+            /* Incluir borda e padding na largura e altura total */
+            
+        }
+
+        .descricao-produto {
+
+            /* Altura máxima para a descrição do produto (ajuste conforme necessário) */
+            
+            /* Adiciona rolagem vertical caso a descrição seja maior que a altura máxima */
+            word-wrap: break-word;
+            /* Permite que palavras longas quebrem e continuem em uma nova linha */
+        }
+
+        .imgproduto {
+            max-width: 100%;
+            /* Imagens dentro do produto não ultrapassam a largura do contêiner */
+            height: 100%;
+            /* Mantém a proporção da imagem */
+            border-radius: 10px;
+        }
+
+
+        .btncomprar {
+            background-color: rgb(207, 40, 223);
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 9px 18px;
+            /* Ajuste o tamanho do padding conforme necessário */
+            margin-right: 8px;
+        }
+
+
+        .btncomprar:hover {
+            background-color: rgb(108, 9, 117);
+        }
+
+        .btncart:hover {
+            background-color: rgb(1, 87, 185);
+        }
+
+        .btncart {
+            background-color: rgb(98, 131, 168);
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 9px 18px;
+            /* Ajuste o tamanho do padding conforme necessário */
+            margin-right: 8px;
+        }
+
+        .botoes {
+            display: flex;
+            align-items: center;
+        }
+
+        .textpreco {
+            padding: 10px;
+        }
+
+        
+    
+    </style>
+
+
+</head>
+
+<body>
+
+
+
+    {% for produto in lista_de_produtos %}
+    <a href="{% url 'produto_detail' produto.pk %}" style="text-decoration: none; color: inherit;">
+    <div class="produto">
+        <img class="imgproduto" src="{{ produto.imagem.url }}" alt="{{ produto.imagem }}">
+        <h4 style="text-transform: uppercase;">{{ produto.nome }}</h4>
+        <p class=".descricao-produto">{{ produto.descricao }}</p>
+        
+        <h5 class="textpreco"
+            style="font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+            R$ {{ produto.preco }}</h5>
+        
+    </div>
+</a>
+    {% endfor %}
+
+
+
+
+</body>
+
+</html>
+
+
+{% endblock %}

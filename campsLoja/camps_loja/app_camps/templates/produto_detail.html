@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Restante do seu cabeçalho... -->
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            background-image: url('https://i.ibb.co/0fWr4bT/azzz.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .btncomprar {
+            color: black;
+            font-weight: bold;
+            background-color: rgb(158, 84, 228);
+            border: none;
+            border-radius: 10px;
+            text-transform: uppercase;
+            padding: 9px 18px;
+            margin-right: 8px;
+        }
+
+        .btncomprar:hover {
+            color: black;
+            background-color: #bf92db;
+        }
+
+        .btncart:hover {
+            background-color: rgb(194, 197, 194);
+        }
+
+        .btncart {
+            background-color: rgb(150, 146, 146);
+            color: black;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 9px 18px;
+            margin-right: 8px;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: center;
+            /* Alinha os itens ao centro do eixo principal */
+            margin-top: 120px;
+            /* Espaçamento entre os detalhes e os botões */
+            margin-bottom: 20px;
+            margin-left: 100px;
+        }
+
+        .desc {
+            
+            display: flex;
+            /* Divide a área em duas colunas, uma para a imagem e outra para as informações */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            align-items: flex-start;
+            /* Alinha os itens ao início do eixo transversal (no topo) */
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            max-width: 1000px;
+            border-radius: 50px;
+            align-items: center;
+        }
+
+
+
+        .imgproduto-container {
+            
+            text-align: center;
+            justify-content: center;
+            /* Centraliza horizontalmente */
+            align-items: center;
+            /* Centraliza verticalmente */
+            padding: 10px;
+            /* Adiciona um pouco de espaço interno */
+
+        }
+
+        .imgproduto {
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+
+        .info-produto {
+            margin-left: 100px;
+            flex-grow: 1;
+        }
+
+        .textpreco {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            margin-top: 10px;
+            /* Espaçamento entre os detalhes e o preço */
+            font-size: 30px;
+        }
+        @media (max-width: 768px) {
+        .desc {
+            flex-direction: column; /* Empilha verticalmente em telas pequenas */
+        }
+
+        .info-produto {
+            margin-left: 0;
+            margin-top: 20px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="desc">
+        <div class="imgproduto-container">
+            <img class="imgproduto" src="{{ produto.imagem.url }}" alt="{{ produto.imagem }}">
+        </div>
+
+        <div class="infos">
+            <div class="info-produto">
+                <h4 style="text-transform: uppercase;">{{ produto.nome }}</h4>
+                <p class="descricao-produto">{{ produto.descricao }}</p>
+                <h5 class="textpreco">R$ {{ produto.preco }}</h5>
+
+
+
+                <form method="post" action="{% url 'adicionar_ao_carrinho' produto.id %}">
+                    {% csrf_token %}
+                    <div class="tamanho">
+                        <label for="tamanho" style="text-transform: uppercase;">Selecione o tamanho:</label>
+                        <select id="tamanho" name="tamanho">
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                        </select>
+                    </div>
+            </div>
+
+            <div class="botoes">
+                <button id="btnComprar" class="btncomprar" type="button">Comprar</button>
+                <input type="hidden" name="produto_id" value="{{ produto.id }}">
+                <button class="btn btncart" type="submit">+<i class="fa-solid fa-cart-shopping"></i></button>
+            </div>
+
+            </form>
+        </div>
+
+    </div>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 1500); // O tempo está em milissegundos
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#btnComprar').click(function(e) {
+            e.preventDefault();  // Previne o comportamento padrão do botão
+    
+            var form = $('form'); // Seleciona o formulário
+            $.ajax({
+                url: form.attr('action'), // Pega a URL do action do formulário
+                method: 'POST', // Método HTTP
+                data: form.serialize(), // Serializa os dados do formulário
+                success: function() {
+                    window.location.href = '{% url "carrinho" %}'; // Redireciona para o carrinho
+                }
+            });
+        });
+    });
+    </script>
+    
+
+
+</html>
+
+{% endblock %}

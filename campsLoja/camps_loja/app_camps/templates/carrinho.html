@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Ankie co.</title>
+
+  <style>
+    body {
+      text-align: center;
+      margin: 0;
+      background-color: #f8f9fa;
+      background-image: url('https://i.ibb.co/0fWr4bT/azzz.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .produto-carrinho {
+      flex-wrap: wrap;
+      margin: auto;
+      box-sizing: border-box;
+      position: relative;
+      width: 600px;
+      align-items: center;
+      margin-bottom: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 50px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+      border: 1px solid #ddd;
+      display: flex;
+
+    }
+
+    .produto-carrinho img {
+      text-align: center;
+      width: 100px;
+      margin-right: 20px;
+      border-radius: 4px;
+      
+    }
+
+    .produto-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      flex-grow: 1;
+      
+    }
+
+    .produto-info li {
+      list-style: none;
+      /* Remove list bullets */
+    }
+
+    .btn-remover:hover {
+      color: rgb(158, 84, 228);
+    }
+
+    .link-remover {
+      text-transform: uppercase;
+      color: black;
+    }
+
+
+
+
+    .btn-remover {
+      position: absolute;
+      top: 50%px;
+      right: 20px;
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #1b1b1b;
+      border-left: 4px solid #cac9c9;
+      /* Linha divisória */
+    }
+
+    .pagamento-container {
+      margin: auto;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      width: 600px;
+      align-items: center;
+      background-color: white;
+      padding: 10px;
+      border-radius: 50px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+      border: 1px solid #ddd;
+      display: flex;
+    }
+
+    .btnpagamento {
+      margin-left: auto;
+      margin-right: 20px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: black;
+      font-weight: bold;
+      background-color: rgb(158, 84, 228);
+      border: none;
+      border-radius: 10px;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      margin-right: 8px;
+    }
+
+
+
+    .btnpagamento:hover {
+      color: black;
+      background-color: #bf92db;
+    }
+
+    @media (max-width: 768px) {
+        .produto-carrinho {
+          width: 90%;
+            flex-direction: column; /* Empilha verticalmente em telas pequenas */
+        }
+        .pagamento-container{
+          width: 90%;
+        
+        }
+
+        .produto-info {
+          
+            margin-left: 0;
+            margin-top: 20px;
+        }
+      }
+  </style>
+</head>
+
+<body>
+
+  <h6>Carrinho</h6>
+
+  {% if carrinho_itens %}
+
+  {% for item in carrinho_itens %}
+  <div class="produto-carrinho">
+    <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+
+    <div class="produto-info">
+      <li><strong>Produto:</strong> {{ item.produto.nome }}</li>
+      <li><strong>Tamanho:</strong> {{ item.tamanho }}</li>
+      <li><strong>Preço:</strong> R$ {{ item.produto.preco }}</li>
+      <li><strong>Quantidade:</strong> {{ item.quantidade }}</li>
+      <li><strong>Subtotal:</strong> R$ {{ item.subtotal }}</li>
+    </div>
+
+
+    <form action="{% url 'remover_do_carrinho' item.id %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn-remover"><i class="fa-solid fa-trash"></i></button>
+    </form>
+  </div>
+  {% endfor %}
+
+
+
+
+  <div class="pagamento-container">
+    <h4 style="margin-left: 20px; text-transform: uppercase; ">Total: R$ {{ total }}</h4>
+    <button class="btnpagamento">Finalizar Pedido</button>
+  </div>
+
+
+
+  {% else %}
+  <p>O carrinho está vazio.</p>
+  {% endif %}
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+{% endblock %}

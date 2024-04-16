@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600&display=swap" rel="stylesheet">
+    
+
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            height: 100%;
+            background-color: #f8f9fa;
+        }
+
+        #carouselExampleControls img {
+            width: 100%;
+            /* Define a largura da imagem para ocupar 100% do contêiner do carrossel */
+            height: 300px;
+            /* Define a altura da imagem conforme necessário */
+            object-fit: cover;
+
+            /* Garante que a imagem cubra completamente o espaço alocado, mantendo as proporções */
+        }
+
+        .navbar-nav {
+            text-transform: uppercase;
+            background-color: #fdfdfd;
+            padding: 4px;
+
+        }
+
+
+
+        .rodape {
+            background-color: #e4e1e1;
+            color: black;
+            padding: 20px;
+
+
+        }
+
+        .conteudorodape {
+            display: flex;
+            flex-direction: column;
+            min-height: 130vh;
+        }
+
+
+        .conteudopagina {
+            flex: 1;
+            padding-top: 20px;
+            /* ou qualquer valor que você desejar */
+            box-sizing: border-box;
+            padding-top: 120px;
+
+        }
+
+        .navbar-nav .nav-link {
+            color: black !important;
+            /* Cor do texto no estado normal */
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 2px;
+            font-size: 16px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: rgb(207, 40, 223) !important;
+            /* Altere a cor para a desejada */
+        }
+
+        .nav-link.active {
+            color: rgba(207, 40, 223, 0.8) !important;
+            /* Cor do texto quando ativo */
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(207, 40, 223, 0.8);
+        }
+
+        .nav-item {
+            margin-right: 20px;
+        }
+
+        .btninsta:hover {
+            color: rgba(207, 40, 223, 0.8) !important;
+            /* Cor do texto quando ativo */
+            text-shadow: 0 0 10px rgba(207, 40, 223, 0.8);
+        }
+
+
+        /* Trocar a cor */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+
+    {% if user.is_authenticated %}
+    <!-- Navbar para usuários LOGADOS -->
+    <nav class="navbar navbar-expand-lg  navbar-nav fixed-top">
+
+
+        <div class="container-fluid">
+            <a class="navbar-brand  {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}" href="">
+                <img src="https://i.imgur.com/nlgY60b.png" alt="..." height="60">
+            </a>
+
+            <!-- Botão de colapso para dispositivos móveis -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span style="color: black;" class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/produtos/' %}active{% endif %}"
+                            href="{% url 'produtos' %}">Drop Atual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/lookbook/' %}active{% endif %}"
+                            href="{% url 'lookbook' %}">LookBook</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/contato/' %}active{% endif %}"
+                            href="{% url 'contato' %}">Contato</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/perfil/' %}active{% endif %}"
+                            href="{% url 'perfil' %}">
+                            <i class="fa-solid fa-user"></i></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/logout/' %}active{% endif %}"
+                            href="{% url 'logout' %}">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sair </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a style="border-left: 4px solid #cac9c9;"
+                            class="nav-link {% if request.path == '/carrinho/' %}active{% endif %}"
+                            href="{% url 'carrinho' %}">
+                            <i class="fa-solid fa-cart-shopping" action="{% url 'carrinho' %}"></i></a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+
+
+    {% else %}
+    <!-- Navbar para VISITANTES -->
+    <nav class="navbar navbar-expand-lg  navbar-nav fixed-top">
+
+
+        <div class="container-fluid">
+            <a class="navbar-brand  {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}" href="">
+                <img src="https://i.imgur.com/nlgY60b.png" alt="..." height="60">
+            </a>
+
+
+            <!-- Botão de colapso para dispositivos móveis -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/produtos/' %}active{% endif %}"
+                            href="{% url 'produtos' %}">Drop Atual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/lookbook/' %}active{% endif %}"
+                            href="{% url 'lookbook' %}">LookBook</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/contato/' %}active{% endif %}"
+                            href="{% url 'contato' %}">Contato</a>
+                    </li>
+                </ul>
+
+
+
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/login/' %}active{% endif %}"
+                            href="{% url 'login' %}">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a style="border-left: 4px solid #cac9c9;"
+                            class="nav-link {% if request.path == '/carrinho/' %}active{% endif %}"
+                            href="{% url 'carrinho' %}">
+                            <i class="fa-solid fa-cart-shopping" action="{% url 'carrinho' %}"></i></a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="conteudorodape">
+        <div class="conteudopagina">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div class="rodape">
+            <p style="text-align: center; margin-left: 20px; font-size: 14px;">Copyright &copy; 2023 Ankie.co. Todos os
+                direitos reservados.</p>
+            <a href="https://www.instagram.com/ankie.co/" class="btn btninsta"
+                style="background-color: rgba(176, 173, 177, 0.8); border: none; border-radius: 60px; color: black;"
+                target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>
